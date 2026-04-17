@@ -16,7 +16,7 @@ def lambda_handler(event, context):
     file = "s3://"+bucket_name+"/"+input_key
     df = wr.s3.read_excel(file)
     df = remove_unecessary_header_text(df, file)
-    clean_data(df)
+    df = clean_data(df)
     df['ID'] = df.apply(calculate_surrogate_key, axis=1).astype('string')
     save_parquet_to_s3(df, bucket_name, output_key)
     print(df)
@@ -46,7 +46,7 @@ def remove_unecessary_header_text(df, file):
     header_idx = df.index[is_start_of_table][0]
     df = wr.s3.read_excel(file, skiprows = header_idx + 1)
     df.columns = df.columns.str.replace('\n', ' ').str.strip()
-    df.columns = df.columns.str.replace('\s+', ' ', regex=True)
+    df.columns = df.columns.str.replace(r'\s+', ' ', regex=True)
     cols = list(df.columns)
     cols[3] = "TAX CLASS BEFORE SALE" 
     cols[7] = "BUILDING CLASS BEFORE SALE"
@@ -82,6 +82,7 @@ def clean_data(df):
     df['BOROUGH'] = df['BOROUGH'].astype('string')
     df = df.drop(columns=['EASE-MENT'])
     df = df.drop_duplicates()
+    return df
 
 def convert_borough_to_name(borough):
     if (borough == 1):

@@ -10,6 +10,8 @@ AWS S3: Storage for raw .xls and .xlsx files and .parquet files used by Athena f
 </br>
 AWS Athena: Ad-hoc analysis. Make sure data is good before writing it into Redshift.
 </br>
+AWS Glue Crawler: Infer schema from processed folder to build database for Athena to use.
+</br>
 AWS Redshift: Warehouse that contains cleansed, sales data. 
 </br>
 Tableau: Data Visualization. Uses Data from Redshift. 

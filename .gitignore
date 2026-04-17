@@ -5,6 +5,10 @@ python/
 
 **/**.xlsx
 
+**/**.parquet
+
 **/**.csv
 
 **/**.zip
+
+
