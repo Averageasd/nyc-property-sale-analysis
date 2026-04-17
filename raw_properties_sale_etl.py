@@ -64,6 +64,7 @@ def clean_data(df):
     df['TAX CLASS AT TIME OF SALE'] = df['TAX CLASS AT TIME OF SALE'].fillna('unknown')
     df['BUILDING CLASS AT TIME OF SALE'] = df['BUILDING CLASS AT TIME OF SALE'].fillna('unknown')
     df['APARTMENT NUMBER'] = df['APARTMENT NUMBER'].fillna('unknown')
+    df['BOROUGH'] = df['BOROUGH'].apply(convert_borough_to_name)
     df = df.loc[~(df['YEAR BUILT'].isna()) & ~(df['YEAR BUILT'] == 0)]
     df = df.loc[~(df['ZIP CODE'] == 0) & ~(df['ZIP CODE'].isna())]
 
@@ -78,8 +79,20 @@ def clean_data(df):
     df['APARTMENT NUMBER'] = df['APARTMENT NUMBER'].astype('string')
     df['TAX CLASS AT TIME OF SALE'] = df['TAX CLASS AT TIME OF SALE'].astype('string')
     df['BUILDING CLASS AT TIME OF SALE'] = df['BUILDING CLASS AT TIME OF SALE'].astype('string')
+    df['BOROUGH'] = df['BOROUGH'].astype('string')
     df = df.drop(columns=['EASE-MENT'])
     df = df.drop_duplicates()
+
+def convert_borough_to_name(borough):
+    if (borough == 1):
+        return "Manhattan"
+    elif (borough == 2):
+        return "Bronx"
+    elif (borough == 3):
+        return "Brooklyn"
+    elif (borough == 4):
+        return "Queens"
+    return "Staten Island"
 
 def calculate_surrogate_key(row):
     unique_key = hashlib.md5((
