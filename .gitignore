@@ -1,0 +1,10 @@
+# ignore python build (you need it for lambda)
+python/
+
+**/**.xls
+
+**/**.xlsx
+
+**/**.csv
+
+**/**.zip
