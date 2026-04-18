@@ -41,6 +41,9 @@ def lambda_handler(event, context):
 
         DROP TABLE IF EXISTS public.temp_nyc_sale_{id_with_lower_hyphen};
 
+        REFRESH MATERIALIZED VIEW sales_by_borough;
+        REFRESH MATERIALIZED VIEW sales_by_year;
+
         COMMIT;
     """
     cursor.execute(merge_sql)
